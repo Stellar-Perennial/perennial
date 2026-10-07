@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+/**
+ * CLI entry point: argument parsing, output formatting, exit codes and alert dispatch.
+ * Keeper logic lives in scan.ts, run.ts and tx.ts.
+ */
 import { parseArgs } from "node:util";
 import { buildMessage, describe, sendAlerts } from "./alerts";
 import { ConfigError, loadConfig, resolveNetwork } from "./config";
@@ -25,6 +29,7 @@ Options:
 The signing key is read from the environment variable named by "secretEnv"
 in your config (default PERENNIAL_SECRET). It is never read from the config file.`;
 
+/** Drop the internal ledger key field; it exists only for building transactions. */
 function strip(entries: ScanResult["entries"]): EntryReport[] {
   return entries.map(({ key: _key, ...rest }) => rest);
 }
@@ -62,6 +67,7 @@ async function main(): Promise<number> {
   if (cmd === "scan") {
     final = await scan(server, cfg);
   } else {
+    // "run" maps to "auto": restore expired, then extend expiring.
     const mode: Mode = cmd === "run" ? "auto" : (cmd as Mode);
     const res = await runKeeper(
       server,
@@ -85,10 +91,13 @@ async function main(): Promise<number> {
     }
   }
 
+  // scan is read-only and never alerts; run/extend/restore do (unless --no-alerts).
   if (!values["no-alerts"] && cmd !== "scan") {
     const msg = buildMessage(cfg.network, final, actions);
     if (msg) for (const err of await sendAlerts(cfg.alerts, msg)) console.error(`alert error: ${err}`);
   }
+  // Exit 2 whenever the final scan still has problems, even after --execute,
+  // so CI fails until every watched entry is ok.
   return problems.length > 0 ? 2 : 0;
 }
 
