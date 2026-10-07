@@ -1,0 +1,39 @@
+{
+  "network": "testnet",
+  "thresholdLedgers": 120960,
+  "extendToLedgers": 518400,
+  "maxFeeStroops": 5000000,
+  "batchSize": 20,
+  "secretEnv": "PERENNIAL_SECRET",
+  "contracts": [
+    {
+      "id": "C_REPLACE_WITH_YOUR_CONTRACT_ID",
+      "label": "my-contract",
+      "watchInstance": true,
+      "watchCode": true,
+      "keys": [
+        {
+          "label": "admin",
+          "durability": "persistent",
+          "key": { "type": "vec", "value": [{ "type": "symbol", "value": "Admin" }] }
+        },
+        {
+          "label": "balance of one account",
+          "durability": "persistent",
+          "key": {
+            "type": "vec",
+            "value": [
+              { "type": "symbol", "value": "Balance" },
+              { "type": "address", "value": "G_REPLACE_WITH_AN_ACCOUNT" }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "alerts": {
+    "slack": { "webhookUrlEnv": "SLACK_WEBHOOK_URL" },
+    "telegram": { "botTokenEnv": "TELEGRAM_BOT_TOKEN", "chatIdEnv": "TELEGRAM_CHAT_ID" },
+    "webhook": { "urlEnv": "PERENNIAL_WEBHOOK_URL" }
+  }
+}

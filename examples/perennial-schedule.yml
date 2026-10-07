@@ -1,0 +1,21 @@
+# Copy to .github/workflows/ in YOUR repo (the one that owns the contracts).
+# 1. Add perennial.config.json to that repo (see perennial.config.example.json).
+# 2. Add a repository secret named PERENNIAL_SECRET (a funded account's secret key).
+# 3. Start with execute: "false" (dry run). Switch to "true" when the output looks right.
+name: Perennial keeper
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+jobs:
+  keep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: stellar-Perennial/perennial@main
+        with:
+          config: perennial.config.json
+          mode: run
+          execute: "false"
+        env:
+          PERENNIAL_SECRET: ${{ secrets.PERENNIAL_SECRET }}

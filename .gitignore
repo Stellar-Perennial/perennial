@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.log
+.env
+perennial.config.json
+fixtures/contract/target/

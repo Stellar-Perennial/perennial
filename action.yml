@@ -1,0 +1,36 @@
+name: "Perennial"
+description: "Keep Soroban contract state alive: scan TTLs, extend and restore entries, alert before expiry."
+branding:
+  icon: "refresh-cw"
+  color: "green"
+inputs:
+  config:
+    description: "Path to the Perennial config file"
+    default: "perennial.config.json"
+  mode:
+    description: "scan, run, extend or restore"
+    default: "scan"
+  execute:
+    description: "Set to true to send transactions. Anything else is a dry run."
+    default: "false"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+    - name: Build Perennial
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm install && npm run build
+    - name: Run Perennial
+      shell: bash
+      env:
+        INPUT_CONFIG: ${{ inputs.config }}
+        INPUT_MODE: ${{ inputs.mode }}
+        INPUT_EXECUTE: ${{ inputs.execute }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        ARGS=("$INPUT_MODE" --config "$INPUT_CONFIG")
+        if [ "$INPUT_EXECUTE" = "true" ] && [ "$INPUT_MODE" != "scan" ]; then ARGS+=(--execute); fi
+        node "$ACTION_PATH/dist/cli.js" "${ARGS[@]}"

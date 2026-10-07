@@ -1,0 +1,25 @@
+{
+  "name": "perennial",
+  "version": "0.1.0",
+  "description": "Keep your Soroban contract state alive: monitor TTLs, extend and restore entries, alert before expiry.",
+  "license": "MIT",
+  "bin": { "perennial": "dist/cli.js" },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "scan": "node dist/cli.js scan"
+  },
+  "dependencies": {
+    "@stellar/stellar-sdk": ">=13.0.0"
+  },
+  "devDependencies": {
+    "@types/node": ">=20",
+    "typescript": ">=5.4.0",
+    "vitest": ">=2.0.0"
+  }
+}
