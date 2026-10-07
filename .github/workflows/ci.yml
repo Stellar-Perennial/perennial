@@ -1,3 +1,5 @@
+# CI for this repository only: typecheck, build, unit tests.
+# To run Perennial against your contracts, see examples/perennial-schedule.yml.
 name: CI
 on:
   push:
