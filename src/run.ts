@@ -1,17 +1,23 @@
+/**
+ * One keeper run: scan, restore expired entries, then extend expiring ones.
+ * Everything is a dry run unless execute is set together with a signing key.
+ */
 import { Keypair, rpc } from "@stellar/stellar-sdk";
 import { resolveNetwork } from "./config";
 import { scan } from "./scan";
 import { sendExtend, sendRestore } from "./tx";
 import type { ActionResult, Config, ScanResult, ScannedEntry } from "./types";
 
+/** "auto" restores then extends; "extend" and "restore" run only that action. */
 export type Mode = "auto" | "extend" | "restore";
 
 export interface RunOptions {
   mode: Mode;
   execute: boolean; // false = dry run: nothing is sent
-  includeMissing: boolean; // also try to restore entries the RPC did not return
+  includeMissing: boolean; // also restore entries the RPC did not return: archived, or a wrong key
 }
 
+/** before is the initial scan; after is set only in execute mode when actions were taken. */
 export interface RunResult {
   before: ScanResult;
   after?: ScanResult;
@@ -54,6 +60,11 @@ async function doBatches(
   return results;
 }
 
+/**
+ * Run one keeper pass over the configured contracts.
+ * @param secret signing key, read from the secretEnv env var by the caller.
+ *   Required only when opts.execute is true; dry runs never need it.
+ */
 export async function runKeeper(
   server: rpc.Server,
   cfg: Config,
@@ -68,8 +79,11 @@ export async function runKeeper(
 
   const before = await scan(server, cfg);
   const actions: ActionResult[] = [];
+  // Keys whose restore failed stay archived; the extend pass skips them because
+  // an archived entry cannot be extended until it has been restored.
   const failed = new Set<string>();
 
+  // Restore before extend: an expired entry must be live again before extending it.
   if (opts.mode !== "extend") {
     const toRestore = before.entries.filter(
       (e) => e.state === "expired" || (opts.includeMissing && e.state === "missing"),
