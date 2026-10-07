@@ -1,3 +1,7 @@
+/**
+ * Loads and validates the config file, and maps network names to RPC URL and passphrase.
+ * Does not read environment variables and does not talk to the network.
+ */
 import { readFileSync } from "node:fs";
 import { Networks, StrKey } from "@stellar/stellar-sdk";
 import type { Config, ContractConfig } from "./types";
@@ -10,8 +14,10 @@ export const DEFAULTS = {
   secretEnv: "PERENNIAL_SECRET",
 } as const;
 
+/** Public Stellar testnet RPC endpoint, used when testnet config omits rpcUrl. */
 export const TESTNET_RPC = "https://soroban-testnet.stellar.org";
 
+/** Thrown for any invalid or unreadable config; the CLI prints it without a stack trace. */
 export class ConfigError extends Error {}
 
 function positiveInt(v: unknown, name: string, fallback: number): number {
@@ -22,6 +28,11 @@ function positiveInt(v: unknown, name: string, fallback: number): number {
   return v;
 }
 
+/**
+ * Validate a raw JSON value and apply defaults for omitted fields.
+ * @returns a normalized Config.
+ * @throws ConfigError naming the first problem, e.g. `contracts[0].keys[1].durability`.
+ */
 export function parseConfig(raw: unknown): Config {
   if (typeof raw !== "object" || raw === null) throw new ConfigError("Config must be a JSON object");
   const r = raw as Record<string, unknown>;
@@ -77,6 +88,10 @@ export function parseConfig(raw: unknown): Config {
   };
 }
 
+/**
+ * Read and parse a config file from disk.
+ * @throws ConfigError for an unreadable file or invalid JSON, not the raw fs/syntax error.
+ */
 export function loadConfig(path: string): Config {
   let text: string;
   try {
@@ -93,6 +108,10 @@ export function loadConfig(path: string): Config {
   return parseConfig(json);
 }
 
+/**
+ * Map the configured network to an RPC URL and network passphrase.
+ * The mainnet rpcUrl and the custom passphrase are guaranteed present by parseConfig.
+ */
 export function resolveNetwork(cfg: Config): { rpcUrl: string; passphrase: string } {
   if (cfg.network === "testnet") return { rpcUrl: cfg.rpcUrl ?? TESTNET_RPC, passphrase: Networks.TESTNET };
   if (cfg.network === "mainnet") return { rpcUrl: cfg.rpcUrl as string, passphrase: Networks.PUBLIC };
