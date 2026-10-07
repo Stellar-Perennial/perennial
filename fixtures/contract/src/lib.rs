@@ -1,5 +1,7 @@
 #![no_std]
-//! Tiny contract used to test Perennial. It writes one value into each storage type.
+//! Fixture contract for Perennial: writes one value into each storage type.
+//! Not used by the vitest unit tests. Deploy it to testnet to exercise
+//! restore/extend by hand (see README, "What to verify first").
 use soroban_sdk::{contract, contractimpl, Env, Symbol};
 
 #[contract]
@@ -15,6 +17,8 @@ impl Fixture {
         env.storage().temporary().set(&key, &value);
     }
 
+    /// Instance storage is one entry for the whole contract: every `key` here
+    /// lives inside that single entry and shares its TTL.
     pub fn put_instance(env: Env, key: Symbol, value: u32) {
         env.storage().instance().set(&key, &value);
     }
