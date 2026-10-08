@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Perennial logo">
+  <title>Perennial</title>
+  <rect width="256" height="256" rx="56" fill="#0B1220"/>
+  <!-- renewal ring with a gap and an arrowhead -->
+  <circle cx="128" cy="128" r="70" fill="none" stroke="#34D399" stroke-width="12" stroke-linecap="round"
+          stroke-dasharray="380 59.8" transform="rotate(-90 128 128)"/>
+  <polygon points="85.7,70.0 85.8,91.3 64.6,72.9" fill="#34D399"/>
+  <!-- sprout -->
+  <line x1="128" y1="152" x2="128" y2="116" stroke="#34D399" stroke-width="8" stroke-linecap="round"/>
+  <path d="M128 126 C108 126 100 110 102 98 C118 98 128 108 128 126 Z" fill="#34D399"/>
+  <path d="M128 118 C148 118 156 102 154 90 C138 90 128 100 128 118 Z" fill="#A7F3D0"/>
+</svg>
