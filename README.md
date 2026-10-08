@@ -1,3 +1,14 @@
+<p align="center">
+  <img src="assets/banner.png" alt="Perennial: keep your Soroban state alive" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://github.com/stellar-Perennial/perennial/actions/workflows/ci.yml"><img src="https://github.com/stellar-Perennial/perennial/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT license">
+  <img src="https://img.shields.io/badge/status-early%20alpha-orange" alt="Early alpha">
+  <img src="https://img.shields.io/badge/node-%3E%3D20-blue" alt="Node 20 or newer">
+</p>
+
 # Perennial
 
 **Keep your Soroban state alive.**
@@ -91,6 +102,8 @@ This code was written without access to a live network, so these points are **un
 ## Project layout
 
 ```
+assets/     Logo, banner, social preview
+scripts/    Label and issue creation (gh CLI)
 src/        TypeScript source (config, scan, tx, run, alerts, cli)
 test/       Unit tests (vitest)
 fixtures/   Small Soroban contract for testing
@@ -98,9 +111,25 @@ examples/   Scheduled GitHub workflow
 docs/       TTL basics, architecture, planned issues
 ```
 
+## Maintainers
+
+| Name | GitHub | Contact |
+| --- | --- | --- |
+| <your name> | [@<your-handle>](https://github.com/<your-handle>) | Telegram: <your-telegram> |
+
+## Community
+
+Questions and ideas: <community link, for example a Telegram group or GitHub Discussions>.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Planned work is listed in [docs/PLANNED-ISSUES.md](docs/PLANNED-ISSUES.md).
+
+## Contributors
+
+<a href="https://github.com/stellar-Perennial/perennial/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=stellar-Perennial/perennial" alt="Contributors">
+</a>
 
 ## License
 

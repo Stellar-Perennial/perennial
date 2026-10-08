@@ -1,15 +1,10 @@
 # Copy to .github/workflows/ in YOUR repo (the one that owns the contracts).
-# Setup:
 # 1. Add perennial.config.json to that repo (see perennial.config.example.json).
-# 2. Add a repository secret named PERENNIAL_SECRET: a funded account's secret key.
-#    Use a dedicated account with a small balance, not a treasury or admin key.
-# 3. Keep execute: "false" (dry run) until the output looks right, then switch to "true".
-# The signing key and alert URLs and tokens come only from environment variables,
-# never from the config file.
+# 2. Add a repository secret named PERENNIAL_SECRET (a funded account's secret key).
+# 3. Start with execute: "false" (dry run). Switch to "true" when the output looks right.
 name: Perennial keeper
 on:
   schedule:
-    # Daily at 06:00 UTC.
     - cron: "0 6 * * *"
   workflow_dispatch:
 jobs:
@@ -18,11 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: stellar-Perennial/perennial@main
-        # Pin to a tag or commit once you rely on this; @main can change under you.
         with:
           config: perennial.config.json
           mode: run
           execute: "false"
         env:
-          # The action reads the key from the environment; the config file never holds it.
           PERENNIAL_SECRET: ${{ secrets.PERENNIAL_SECRET }}

@@ -1,7 +1,3 @@
-/**
- * Reads the TTL of watched entries from Soroban RPC and classifies them.
- * Read-only: this file never builds or sends transactions.
- */
 import { rpc, xdr } from "@stellar/stellar-sdk";
 import { codeKey, dataKey, instanceKey } from "./keys";
 import type {
@@ -17,7 +13,6 @@ import type {
 /** Rough average. Real close times vary, so day counts are estimates only. */
 export const LEDGER_SECONDS = 5;
 
-/** Convert ledgers to days at ~5s per ledger, rounded to 0.1 days. Estimate only. */
 export function ledgersToDays(ledgers: number): number {
   return Math.round(((ledgers * LEDGER_SECONDS) / 86400) * 10) / 10;
 }
@@ -33,12 +28,10 @@ export function classify(remaining: number | undefined, threshold: number): Entr
   return "ok";
 }
 
-/** Create an RPC client. allowHttp exists so plain-http URLs (e.g. local test RPCs) work. */
 export function makeServer(url: string): rpc.Server {
   return new rpc.Server(url, { allowHttp: url.startsWith("http://") });
 }
 
-/** Fetch many ledger keys, chunked because getLedgerEntries caps keys per request. */
 async function fetchEntries(
   server: rpc.Server,
   keys: xdr.LedgerKey[],
@@ -61,7 +54,6 @@ function wasmHashOf(inst: rpc.Api.LedgerEntryResult): Buffer | undefined {
   return undefined;
 }
 
-/** Build one report. remaining = liveUntilLedger - latestLedger, in ledgers. */
 function makeEntry(
   c: ContractConfig,
   kind: EntryKind,
@@ -88,10 +80,6 @@ function makeEntry(
   };
 }
 
-/**
- * Scan one contract. The instance entry is fetched first because it holds the
- * wasm hash needed to build the code entry.
- */
 async function scanContract(
   server: rpc.Server,
   c: ContractConfig,
@@ -129,10 +117,6 @@ async function scanContract(
   return out;
 }
 
-/**
- * Scan every configured contract against one ledger.
- * @returns every watched entry, classified against cfg.thresholdLedgers.
- */
 export async function scan(server: rpc.Server, cfg: Config): Promise<ScanResult> {
   const latest = (await server.getLatestLedger()).sequence;
   const entries: ScannedEntry[] = [];

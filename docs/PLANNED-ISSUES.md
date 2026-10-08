@@ -1,5 +1,7 @@
 # Planned issues
 
+These 15 issues are created by `scripts/create-issues.sh` (dry run by default). Run `scripts/create-labels.sh` first. Read each issue body in that script and edit anything that no longer matches the code before you publish.
+
 Use this as the backlog for the first Wave. Complexity follows the Drips Wave levels: Trivial (100 points), Medium (150), High (200). Re-tag honestly before publishing each issue.
 
 Issue template (from the Drips blog): Description, Requirements and context, Suggested execution, Test and commit, Guidelines (assignment required, `Closes #id` in the PR).

@@ -1,14 +1,7 @@
-/**
- * Converts a JSON key description from the config into an xdr.ScVal.
- * Pure conversion: no RPC calls and no knowledge of which keys exist.
- */
 import { Address, nativeToScVal, xdr } from "@stellar/stellar-sdk";
 import type { KeySpec } from "./types";
 
-/**
- * Encode a config KeySpec as the ScVal used to build a ledger key.
- * @throws when spec.type is not one of the supported KeySpec types.
- */
+/** Turn a JSON key description from the config into a Soroban ScVal. */
 export function toScVal(spec: KeySpec): xdr.ScVal {
   switch (spec.type) {
     case "symbol":

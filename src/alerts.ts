@@ -1,17 +1,10 @@
-/**
- * Builds and delivers alert messages to Slack, Telegram or a generic webhook.
- * The config holds only env var NAMES; the webhook URLs and tokens are read
- * from the environment at send time and never from the config file.
- */
 import type { ActionResult, AlertConfig, EntryReport, ScanResult } from "./types";
 
-/** One alert: a title plus one line per problem or action taken. */
 export interface AlertMessage {
   title: string;
   lines: string[];
 }
 
-/** One human-readable line about an entry, used for console output and alerts. */
 export function describe(e: EntryReport): string {
   const what = e.kind === "data" ? `${e.durability} key ${e.item}` : e.kind;
   const when =
@@ -32,7 +25,6 @@ export function buildMessage(network: string, scanResult: ScanResult, actions: A
   return { title: `Perennial (${network}): ${problems.length} entries need attention`, lines };
 }
 
-/** POST JSON and throw on a non-2xx response. */
 async function post(url: string, body: unknown): Promise<void> {
   const res = await fetch(url, {
     method: "POST",
