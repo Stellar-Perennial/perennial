@@ -17,6 +17,8 @@
 
 **Keep your Soroban state alive.**
 
+Documentation: **https://stellar-perennial.github.io/perennial/**
+
 Soroban contract data expires unless someone pays to extend it. Expired data is archived, and your app can break until it is restored. Perennial watches the storage of the contracts you list, warns before entries run out, and extends or restores them on a schedule.
 
 > **Status: early alpha, not yet tested against a live network.** Read [What to verify first](#what-to-verify-first) before you point it at mainnet. Perennial is an independent community project. It is not an official Stellar Development Foundation product.
