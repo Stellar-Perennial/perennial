@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="assets/logo.png" alt="Perennial logo" width="120">
+</p>
+
+<p align="center">
   <img src="assets/banner.png" alt="Perennial: keep your Soroban state alive" width="100%">
 </p>
 
