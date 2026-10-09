@@ -121,7 +121,7 @@ docs/       TTL basics, architecture, planned issues
 
 | Name | GitHub | Contact |
 | --- | --- | --- |
-| <your name> | [@<your-handle>](https://github.com/<your-handle>) | Telegram: <your-telegram> |
+| <your name> | [@Dev-Marcy](https://github.com/Dev-Marcy) | Telegram: <your-telegram> |
 
 ## Community
 
