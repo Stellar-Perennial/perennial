@@ -119,9 +119,9 @@ docs/       TTL basics, architecture, planned issues
 
 ## Maintainers
 
-| Name | GitHub | Contact |
-| --- | --- | --- |
-| <your name> | [@Dev-Marcy](https://github.com/Dev-Marcy) | Telegram: <your-telegram> |
+| Name | GitHub | 
+| --- | --- | 
+| Dev-Marcy | [@Dev-Marcy](https://github.com/Dev-Marcy) | 
 
 ## Community
 
